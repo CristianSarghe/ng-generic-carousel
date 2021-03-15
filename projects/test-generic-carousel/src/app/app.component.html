@@ -1,0 +1,12 @@
+<ng-generic-carousel [elements]="['Jessie', 'Joe', 'Jennifer', 'Jeremy', 'Joanne', 'Jason']" [placeholderElementsCount]="2" [alwaysShowNavigationButtons]="true">
+  <ng-template #contentTemplate let-data="data">
+	  <p>I am {{data}}</p>
+  </ng-template>
+
+  <ng-template #placeholderTemplate>
+	  <p>This should be a name</p>
+  </ng-template>
+
+  <ng-template #leftButtonTemplate><</ng-template>
+  <ng-template #rightButtonTemplate>></ng-template>
+</ng-generic-carousel>

@@ -6,5 +6,18 @@
 */
 {
   "files": [],
-  "references": []
+  "references": [
+    {
+      "path": "./projects/ng-generic-carousel/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ng-generic-carousel/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/test-generic-carousel/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/test-generic-carousel/tsconfig.spec.json"
+    }
+]
 }

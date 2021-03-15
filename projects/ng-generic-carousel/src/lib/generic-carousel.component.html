@@ -1,0 +1,37 @@
+<button *ngIf="alwaysShowNavigationButtons || (elements?.length || placeholderElementsCount || 0 ) > visibleElementsCount"
+	(click)="leftValue = (leftValue <= (100 / visibleElementsCount) ? 0 : (leftValue - (100 / visibleElementsCount)))"
+	[disabled]="leftValue <= 0">
+	<ng-container *ngTemplateOutlet="leftButtonTemplate"></ng-container>
+</button>
+
+<div class="carousel-container">
+	<div class="carousel-picture-container"
+		[class.centered]="(elements?.length && (elements.length < visibleElementsCount)) || (!elements?.length && placeholderElements?.length && (placeholderElements.length < placeholderElementsCount))"
+		[style.left]="(-1 * leftValue) + '%'">
+
+		<ng-container *ngIf="elements?.length">
+			<ng-container *ngFor="let item of elements">
+				<div [style.min-width]="(100 / visibleElementsCount) + '%'"
+					[style.width]="(100 / visibleElementsCount) + '%'">
+					<ng-container *ngTemplateOutlet="contentTemplate || null; context: { data: item }"></ng-container>
+				</div>
+			</ng-container>
+		</ng-container>
+
+		<ng-container *ngIf="!elements?.length && placeholderElements?.length">
+			<ng-container *ngFor="let item of placeholderElements">
+				<div [style.min-width]="(100 / visibleElementsCount) + '%'"
+					[style.width]="(100 / visibleElementsCount) + '%'" class="placeholder">
+					<ng-container *ngTemplateOutlet="placeholderTemplate || null; context: { data: item }">
+					</ng-container>
+				</div>
+			</ng-container>
+		</ng-container>
+	</div>
+</div>
+
+<button *ngIf="alwaysShowNavigationButtons || (elements?.length || placeholderElementsCount || 0) > visibleElementsCount"
+	[disabled]="leftValue > (((elements?.length || placeholderElementsCount || 0) - (visibleElementsCount + 1)) * (100 / visibleElementsCount))"
+	(click)="leftValue = (leftValue > (((elements?.length || placeholderElementsCount || 0) - (visibleElementsCount + 1)) * (100 / visibleElementsCount))) ? (((elements?.length || placeholderElementsCount || 0) - visibleElementsCount) * (100 / visibleElementsCount)) : (leftValue + (100 / visibleElementsCount))">
+	<ng-container *ngTemplateOutlet="rightButtonTemplate"></ng-container>
+</button>
