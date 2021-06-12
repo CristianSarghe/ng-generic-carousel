@@ -1,6 +1,6 @@
 <button *ngIf="alwaysShowNavigationButtons || (elements?.length || placeholderElementsCount || 0 ) > visibleElementsCount"
-	(click)="leftValue = (leftValue <= (100 / visibleElementsCount) ? 0 : (leftValue - (100 / visibleElementsCount)))"
-	[disabled]="leftValue <= 0">
+	(click)="goLeft()"
+	[disabled]="disableLeft()">
 	<ng-container *ngTemplateOutlet="leftButtonTemplate"></ng-container>
 </button>
 
@@ -31,7 +31,7 @@
 </div>
 
 <button *ngIf="alwaysShowNavigationButtons || (elements?.length || placeholderElementsCount || 0) > visibleElementsCount"
-	[disabled]="leftValue > (((elements?.length || placeholderElementsCount || 0) - (visibleElementsCount + 1)) * (100 / visibleElementsCount))"
-	(click)="leftValue = (leftValue > (((elements?.length || placeholderElementsCount || 0) - (visibleElementsCount + 1)) * (100 / visibleElementsCount))) ? (((elements?.length || placeholderElementsCount || 0) - visibleElementsCount) * (100 / visibleElementsCount)) : (leftValue + (100 / visibleElementsCount))">
+	[disabled]="disableRight()"
+	(click)="goRight()">
 	<ng-container *ngTemplateOutlet="rightButtonTemplate"></ng-container>
 </button>

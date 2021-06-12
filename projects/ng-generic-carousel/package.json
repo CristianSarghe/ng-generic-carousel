@@ -1,6 +1,6 @@
 {
   "name": "@cristiansarghe/ng-generic-carousel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Cristian Sarghe",
     "url": "https://cristiansarghe.com/",
@@ -9,7 +9,7 @@
   "keywords": ["angular", "carousel", "angular10", "angular9", "template", "lightweight", "generic"],
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": "^10.0.14",
-    "@angular/core": "^10.0.14"
+    "@angular/common": "^12.0.4",
+    "@angular/core": "^12.0.4"
   }
 }

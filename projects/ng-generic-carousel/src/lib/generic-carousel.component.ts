@@ -14,11 +14,18 @@ export class GenericCarouselComponent implements OnInit {
 	@ContentChild('rightButtonTemplate') public rightButtonTemplate !: TemplateRef<any>;
 
 	@Input() public alwaysShowNavigationButtons = false;
+	@Input() public isRoundNavigation = false;
 	@Input() public visibleElementsCount = 3;
 	@Input() public placeholderElementsCount = 3;
 	@Input() public set elements(value: any[] | undefined) {
 		this._elements = value || [];
+		this.initialElements = [...this._elements];
+		this.leftIncrementIndex = this._elements.length - 1;
 	}
+
+	// tslint:disable-next-line:no-any
+	public initialElements: any[] = [];
+	public leftIncrementIndex = 0;
 
 	public leftValue = 0;
 
@@ -43,6 +50,42 @@ export class GenericCarouselComponent implements OnInit {
 	constructor() { }
 
 	ngOnInit(): void {
+	}
+
+	public goLeft(): void {
+		if (this.leftValue === 0) {
+			this.leftValue = (100 / this.visibleElementsCount) * (this.initialElements.length - (this.visibleElementsCount));
+		} else {
+			this.leftValue = (this.leftValue <= (100 / this.visibleElementsCount) ? 0 : (this.leftValue - (100 / this.visibleElementsCount)));
+		}
+	}
+
+	public goRight(): void {
+		if (this.leftValue < ((100 / this.visibleElementsCount) * (this._elements.length - this.visibleElementsCount))) {
+			this.leftValue = (this.leftValue > (((this.elements?.length || 0) - (this.visibleElementsCount + 1)) * (100 / this.visibleElementsCount))) ? (((this.elements?.length || 0) - this.visibleElementsCount) * (100 / this.visibleElementsCount)) : (this.leftValue + (100 / this.visibleElementsCount));
+		} else {
+			this.leftValue = 0;
+		}
+	}
+
+	public disableLeft(): boolean {
+		if (this.visibleElementsCount >= (this.elements?.length || this.placeholderElementsCount || 0)) {
+			return true;
+		} else {
+			if (!this.isRoundNavigation) {
+				return this.leftValue <= 0;
+			}
+		}
+	}
+
+	public disableRight(): boolean {
+		if (this.visibleElementsCount >= (this.elements?.length || this.placeholderElementsCount || 0)) {
+			return true;
+		} else {
+			if (!this.isRoundNavigation) {
+				return this.leftValue > (((this.elements?.length || this.placeholderElementsCount || 0) - (this.visibleElementsCount + 1)) * (100 / this.visibleElementsCount));
+			}
+		}
 	}
 
 }
