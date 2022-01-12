@@ -1,9 +1,20 @@
 # Generic Angular Carousel Component
 
-
 ## What is it?
 
-`@cristiansarghe/ng-generic-carousel` is a lightweight carousel component made for any type of content, NOT only images.
+`@cristiansarghe/ng-generic-carousel` is a lightweight, mobile device friendly Angular carousel component made for ANY type of content, NOT only images.
+
+## Changelog
+
+### Version 3.0.0
+- *Angular 12 support*
+- Added drag-drop navigation support for mouse and touch inputs ([HammerJS](https://www.npmjs.com/package/hammerjs) is a new dependency)
+- Changed navigation button hiding logic (includes changes to `Input()` parameters)
+
+### Version 2.0.0
+
+- *Updated package to Angular 12*
+- Added round navigation option (when reaching the left or right side of the elements list, continue from the other side)
 
 ## Installation
 
@@ -11,7 +22,7 @@
 
 ## Basic usage
 
-In the simplest terms, the component works by having a HTML template passed, along with an array of elements. By default, the component shows 3 elements at once.
+The component works by having a HTML template passed, along with an array of elements. By default, the component shows 3 elements at once.
 
 ```
 <ng-generic-carousel [elements]="['John', 'Joanne', 'Jason', 'Jessica']">
@@ -19,8 +30,8 @@ In the simplest terms, the component works by having a HTML template passed, alo
 		<p>I am {{data}}</p>
 	</ng-template>
 
-	<ng-template #leftButtonTemplate> < </ng-template>
-	<ng-template #rightButtonTemplate> > </ng-template>
+	<ng-template #leftButtonTemplate> &lt; </ng-template>
+	<ng-template #rightButtonTemplate> &gt; </ng-template>
 </ng-generic-carousel>
 ```
 
@@ -36,21 +47,22 @@ In the simplest terms, the component works by having a HTML template passed, alo
 ## Customization
 ### Content
 
-* The `contentTemplate` named `ng-template` provides the layout for each carousel element.
+* The `contentTemplate`-named `ng-template` provides the layout for each carousel element.
 * The `leftButtonTemplate` and `rightButtonTemplate` elements provide the **content** for the buttons (in order to customize the arrows as desired).
 * `@Input() visibleElementsCount` changes the number of elements shown at once on the screen.
-* **NOTE**: By default, if `elements` has less items than specified by `visibleElementsCount`, the left and right scroll buttons will NOT be shown. You can change this behavior by modifying `@Input() alwaysShowNavigationButtons` to `true`.
+* **NOTE**: By default, if `elements` has less items than specified by `visibleElementsCount`, the left and right scroll buttons will NOT be shown. You can change this behavior by modifying `@Input() hideNavigationButtonsWhenNotNeeded` to `false`.
+* In order to hide the navigation buttons at all times, set the `hideNavigationButtons` input to `true`. This usually works with the drag-drop navigation (see `isDragDropEnabled` input)
 
 Example: 
 
 ```
-<ng-generic-carousel [elements]="['John', 'Joanne', 'Jason', 'Jessica']" [visibleElementsCount]="6" [alwaysShowNavigationButtons]="true">
+<ng-generic-carousel [elements]="['John', 'Joanne', 'Jason', 'Jessica']" [visibleElementsCount]="6" [hideNavigationButtons]="true" [isDragDropEnabled]="true">
 	<ng-template #contentTemplate let-data="data">
 		<p>I am {{data}}</p>
 	</ng-template>
 
-	<ng-template #leftButtonTemplate><</ng-template>
-	<ng-template #rightButtonTemplate>></ng-template>
+	<ng-template #leftButtonTemplate> &lt; </ng-template>			<!-- Will not be shown -->
+	<ng-template #rightButtonTemplate> &gt; </ng-template>			<!-- Will not be shown -->
 </ng-generic-carousel>
 ```
 
@@ -70,20 +82,30 @@ Example:
 		<p>This will be a name!</p>
 	</ng-template>
 
-	<ng-template #leftButtonTemplate><</ng-template>
-	<ng-template #rightButtonTemplate>></ng-template>
+	<ng-template #leftButtonTemplate> &lt; </ng-template>
+	<ng-template #rightButtonTemplate> &gt; </ng-template>
 </ng-generic-carousel>
 ```
 
 
 ### @Input()
 
-| Input                       | Type    | Required                   | Description                                                    						|
-| --------------------------- | ------- | -------------------------- | ------------------------------------------------------------------------------------ |
-| alwaysShowNavigationButtons | boolean | Optional, default: false   | Show or hide navigation buttons when elements count is less than maximum 			|
-| elements             		  | any[]   | Optional, default: []      | Array of objects or primitive values that represent each carousel item   			|
-| placeholderElementsCount    | number  | Optional, default: 3       | If placeholders are shown, this input sets how many placeholder elements to show		|
-| visibleElementsCount   	  | number  | Optional, default: 3       | Number of visible elements at a time			                            			|
+| Input                       			| Type    | Required                   | Description                                                    												|
+| ------------------------------------- | ------- | -------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| elements             		  			| any[]   | Optional, default: []      | Array of objects or primitive values that represent each carousel item   										|
+| placeholderElementsCount    			| number  | Optional, default: 3       | If placeholders are shown, this input sets how many placeholder elements to show								|
+| visibleElementsCount   	  			| number  | Optional, default: 3       | Number of visible elements at a time			                            									|
+| isRoundNavigation			  			| boolean | Optional, default: false   | Enable round carousel navigation (when left or right limits are reached, navigate to each other)				|
+| hideNavigationButtons		  			| boolean | Optional, default: false   | Force hide left and right navigation buttons (all the time, can be used with isDragDropEnabled)				|
+| hideNavigationButtonsWhenNotNeeded 	| boolean | Optional, default: true    | Hide left and right navigation buttons when navigation can not be done due to the little number of elements	|
+| isDragDropEnabled			 			| boolean | Optional, default: true	   | Enable drag-drop navigation (without using the left and right buttons) 										|
+| stickToClosestElement		 			| boolean | Optional, default: true	   | Stick navigation view window to closest element edge after drag-drop movement			 						|
+
+### @Output()
+
+| Output   | Type    | Description                                                    											                                                                     |
+| ---------| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| hasMoved | boolean | Emits *true* when drag movement starts and *false* 200ms after drag ends; can be watched and used to prevent carousel element clicks or trigger other actions after drag ends |
 
 ### ng-template
 
