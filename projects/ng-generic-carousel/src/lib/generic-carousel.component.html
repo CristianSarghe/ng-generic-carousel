@@ -1,13 +1,23 @@
-<button *ngIf="alwaysShowNavigationButtons || (elements?.length || placeholderElementsCount || 0 ) > visibleElementsCount"
+<button *ngIf="!isNavigationHidden"
 	(click)="goLeft()"
 	[disabled]="disableLeft()">
 	<ng-container *ngTemplateOutlet="leftButtonTemplate"></ng-container>
 </button>
 
-<div class="carousel-container">
-	<div class="carousel-picture-container"
-		[class.centered]="(elements?.length && (elements.length < visibleElementsCount)) || (!elements?.length && placeholderElements?.length && (placeholderElements.length < placeholderElementsCount))"
-		[style.left]="(-1 * leftValue) + '%'">
+<div class="carousel-container"
+	[class.grab-enabled]="isDragDropEnabled && isElementsCoveringViewWidth"
+	[class.grabbing]="isPicked"
+	(mousemove)="isElementsCoveringViewWidth && onMouseMove($event)"
+	(mouseleave)="isElementsCoveringViewWidth && onMouseLeave($event)"
+	(mousedown)="isElementsCoveringViewWidth && onMouseDown($event)"
+	(mouseup)="isElementsCoveringViewWidth && onMouseUp($event)"
+	(panstart)="isElementsCoveringViewWidth && onPanStart($event)"
+	(panmove)="isElementsCoveringViewWidth && onPanMove($event)"
+	(panend)="isElementsCoveringViewWidth && onPanEnd($event)">
+
+	<div class="carousel-element-container"
+		[class.centered]="!isElementsCoveringViewWidth"
+		[style.left]="(-1 * leftShiftPercentage) + '%'">
 
 		<ng-container *ngIf="elements?.length">
 			<ng-container *ngFor="let item of elements">
@@ -28,9 +38,10 @@
 			</ng-container>
 		</ng-container>
 	</div>
+
 </div>
 
-<button *ngIf="alwaysShowNavigationButtons || (elements?.length || placeholderElementsCount || 0) > visibleElementsCount"
+<button *ngIf="!isNavigationHidden"
 	[disabled]="disableRight()"
 	(click)="goRight()">
 	<ng-container *ngTemplateOutlet="rightButtonTemplate"></ng-container>

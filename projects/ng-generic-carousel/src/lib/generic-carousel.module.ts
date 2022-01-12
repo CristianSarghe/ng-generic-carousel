@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { HammerModule } from '@angular/platform-browser';
 import { GenericCarouselComponent } from './generic-carousel.component';
 
 @NgModule({
@@ -7,7 +8,8 @@ import { GenericCarouselComponent } from './generic-carousel.component';
 		GenericCarouselComponent
 	],
 	imports: [
-		CommonModule
+		CommonModule,
+		HammerModule
 	],
 	exports: [
 		GenericCarouselComponent

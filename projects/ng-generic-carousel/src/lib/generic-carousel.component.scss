@@ -27,32 +27,44 @@
 
 		box-sizing: border-box;
 
-		.carousel-picture-container {
+		&.grab-enabled {
+			cursor: grab;
+		}
+
+		&.grabbing {
+			cursor: grabbing;
+
+			> .carousel-element-container {
+				transition-duration: 0s !important;
+			}
+		}
+
+		.carousel-element-container {
 			height: 100%;
 			box-sizing: border-box;
 			position: relative;
 			display: flex;
 			justify-content: flex-start;
 			align-items: flex-start;
-			transition-duration: 0.4s;
 			transition-timing-function: ease-in-out;
+			transition-duration: 0.2s;
 
 			width: 100%;
-	
+
 			box-sizing: border-box;
-	
+
 			padding: 30px 0;
 
 			&.centered {
 				justify-content: center;
 			}
-	
+
 			> * {
 				width: 25%;
 				min-width: 25%;
 				box-sizing: border-box;
 			}
-	
+
 			> div {
 				height: 100%;
 			}
